@@ -11,19 +11,15 @@ entity controller is
 
         start            : in  std_logic;
 
-        -- 64-bit input stream, little-endian byte order inside each word.
         din              : in  std_logic_vector(63 downto 0);
         din_valid        : in  std_logic;
         din_ready        : out std_logic;
 
-        -- din_bytes is only used on the final word and may be 0..8.
         din_bytes        : in  integer range 0 to 8;
         din_last_block   : in  std_logic;
 
-        -- SHAKE output length in bytes
         output_len_bytes : in  integer range 0 to 65535;
 
-        -- 64-bit output stream: Each squeeze outputs a 64-bit word.
         dout             : out std_logic_vector(63 downto 0);
         dout_valid       : out std_logic;
         dout_ready       : in  std_logic;
@@ -177,9 +173,7 @@ begin
                         current_state       <= READ_BLOCK;
                     end if;
 
-                ----------------------------------------------------------------
                 -- Read 17 x 64-bit words = 1088-bit SHAKE256 rate block
-                ----------------------------------------------------------------
                 when READ_BLOCK =>
 
                     if din_valid = '1' then
